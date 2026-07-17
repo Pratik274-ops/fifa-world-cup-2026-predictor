@@ -1,0 +1,656 @@
+:root {
+  --gold: #FFD700;
+  --gold-dark: #BFA600;
+  --blue: #003DA5;
+  --green: #13FF86;
+  --red: #E8001D;
+  --silver: #C0C0C0;
+  --bronze: #BC7A2C;
+  --bg-dark: #111b26;
+  --bg-deeper: #10151d;
+  --surface: #172132;
+  --muted: #AEB9D9;
+  --blue-text: #5B9CFF;
+  --primary: #FFD700;
+  --primary-text: #101010;
+  --text: #F5F7FC;
+  --surface-card: #202B3E;
+  --accent: #1dc9b7;
+  --radius: 16px;
+  --input-bg: #111b26;
+}
+html,body {
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  font-family: 'Inter',sans-serif;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 90% 60% at 50% 0, #222c44 0%, var(--bg-dark) 70%);
+  pointer-events: none;
+}
+.pitch-overlay {
+  position: absolute;
+  bottom: -18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  opacity: 0.14;
+  border-radius: 60%;
+  box-shadow: 0 0 0 1px #C0C0C020, inset 0 0 0 1px #fff1;
+  border: 1px solid #E0E6EF0A;
+}
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 64;
+  pointer-events: none;
+}
+.screen {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+.screen.active {
+  display: flex;
+}
+.hero-card {
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+  margin: 0 auto;
+  background: var(--surface-card);
+  border-radius: 1.4em;
+  box-shadow: 0 8px 44px #00000066;
+  padding: 38px 22px 34px 22px;
+  animation: fadeIn 0.7s;
+}
+.hero-trophy {
+  font-size: 60px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-radius: 50%;
+  display: inline-block;
+  padding: 18px 20px;
+  box-shadow: 0 0 60px var(--gold-dark);
+  animation: trophy-glow 2.6s infinite alternate;
+}
+@keyframes trophy-glow {
+  0% { box-shadow: 0 0 60px var(--gold); }
+  100% { box-shadow: 0 0 120px var(--gold-dark); }
+}
+.hero-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 11px;
+  display: inline-block;
+  padding: 2px 18px 3px;
+  border: 1px solid #E2C63570;
+}
+.hero-title {
+  font-family: 'Bebas Neue',sans-serif;
+  letter-spacing: 1.2px;
+  color: var(--text);
+  font-size: clamp(54px, 10vw, 86px);
+  margin: 0 0 8px 0;
+  background: linear-gradient(90deg,var(--primary),#fff,var(--primary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-location {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 16px;
+  letter-spacing: 8px;
+}
+.hero-desc {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 32px;
+}
+.hero-desc b, .tagline strong { color: var(--gold); }
+.stat-panel {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0 26px 0;
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  display: block;
+}
+.stat-value {
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 38px;
+  color: var(--gold);
+  text-shadow: 0 2px 18px #e8c60018;
+  margin-top: 2px;
+}
+.btn {
+  display: block;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border-radius: 0.7em;
+  border: 0;
+  width: 100%;
+  transition: transform 0.11s, box-shadow 0.16s;
+  cursor: pointer;
+  margin-bottom: 12px;
+  font-size: 17px;
+  font-family: inherit;
+  padding: 17px 0;
+}
+.btn-primary {
+  background: linear-gradient(90deg,var(--gold),#fff200);
+  color: #222;
+  box-shadow: 0 4px 24px var(--gold)44;
+}
+.btn-primary:focus-visible {
+  outline: 3px solid var(--gold-dark);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-secondary {
+  background: var(--surface);
+  color: var(--gold);
+  box-shadow: none;
+  border: 1.5px solid var(--gold-dark);
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid #FFA500;
+}
+.leaderboard-preview {
+  margin-top: 34px;
+  background: var(--surface-card);
+  border-radius: 13px;
+  padding: 14px 8px 8px 8px;
+  width: 100%;
+}
+.lb-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2.1px;
+  margin-bottom: 11px;
+}
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  margin-bottom: 3.5px;
+  background: var(--surface);
+}
+.lb-rank {
+  width: 28px;
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 19px;
+  color: var(--muted);
+  text-align: center;
+}
+.lb-rank.gold { color: var(--gold); }
+.lb-rank.silver { color: var(--silver);}
+.lb-rank.bronze { color: var(--bronze);}
+.lb-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lb-score { color: var(--gold); font-family:'Bebas Neue',sans-serif; font-size:20px; }
+.lb-date { color: var(--muted); font-size: 11px; }
+.screen--game {
+  padding-top: 22px;
+  flex-direction: column;
+}
+.game-header {
+  width: 100%;
+  max-width: 900px;
+  background: transparent;
+  padding: 0 2vw 0.3em 2vw;
+}
+.game-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.score-pod, .streak-pod {
+  background: var(--surface-card);
+  border-radius: 25px;
+  padding: 6px 24px;
+  color: var(--gold);
+  border: 1.5px solid var(--gold-dark);
+  font-size: 13.5px;
+}
+.score-pod span:last-child,
+.streak-pod span:last-child {
+  font-size: 23px;
+  font-family: 'Bebas Neue',sans-serif;
+  color: var(--gold);
+  margin-left: 11px;
+}
+.game-progress {
+  font-size: 14px;
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 6px 22px;
+  color: var(--muted);
+  font-family: 'Bebas Neue',sans-serif;
+  font-weight: 600;
+}
+@media (max-width: 599px) {
+  .game-header {
+    padding: 0 7px;
+    max-width: 100vw;
+  }
+  .game-progress {
+    padding: 4px 9px;
+    font-size: 10.5px;
+  }
+  .score-pod, .streak-pod { padding: 4px 10px; }
+}
+.progress-rail {
+  background: #42494F33;
+  border-radius: 2px;
+  width: 100%;
+  height: 6px;
+  margin-bottom: 6px;
+  margin-top: 11px;
+  overflow: hidden;
+}
+.progress-bar {
+  background: linear-gradient(90deg, var(--gold) 0, var(--green) 100%);
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(.7,0,.3,1);
+}
+.game-meta {
+  text-align: center;
+  margin-bottom: 19px;
+}
+.game-badge {
+  display: inline-block;
+  background: linear-gradient(90deg,var(--blue),#324fdb);
+  color: #FFF;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: 2px 20px 3px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  letter-spacing: 2px;
+}
+.game-meta-row {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.draw-warning {
+  color: var(--red);
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 9px;
+  min-height: 16px;
+}
+.match-arena {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 870px;
+  margin: 0 auto 8px;
+}
+.team-card {
+  flex: 1;
+  background: var(--surface);
+  border: 2px solid transparent;
+  border-radius: 21px;
+  min-height: 270px;
+  min-width: 0;
+  text-align: center;
+  margin: 0 2px;
+  transition: box-shadow 0.19s, border 0.19s, transform 0.14s;
+  box-shadow: 0 6px 22px #0110143a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+.team-card:focus-visible {
+  border: 2.5px solid var(--gold-dark);
+  box-shadow: 0 0 0 4px #FFD70044;
+}
+.team-card-a {
+  border: 2.5px solid #FFC20022;
+}
+.team-card-b {
+  border: 2.5px solid #00dffc1e;
+}
+.team-img-bg {
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  box-shadow: 0 3px 16px #0006;
+  width: 89px;
+  height: 67px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18px auto 4px;
+}
+.team-flag {
+  width: 70px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.02);
+  box-shadow: 0 1px 8px #fff2;
+}
+.team-name {
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 28px;
+  margin: 7px 0 2px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 93%;
+  letter-spacing: 1.4px;
+}
+.team-role {
+  font-size: 11.2px;
+  color: var(--blue-text);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1.88px;
+}
+.team-card.selected-correct {
+  border: 2.7px solid var(--green)!important;
+  transform: translateY(-2.5px) scale(1.03);
+  box-shadow: 0 8px 38px #13FF8636;
+}
+.team-card.selected-wrong {
+  border: 2.7px solid var(--red)!important;
+  background: #e8001d08;
+  animation: shake 0.25s;
+}
+.team-card.disabled {
+  opacity: 0.53;
+  pointer-events: none;
+}
+@keyframes shake {
+  0% { transform: translateX(0);}
+  32% { transform: translateX(-8px);}
+  64% { transform: translateX(8px);}
+  100% { transform: translateX(0);}
+}
+.vs-badge {
+  color: var(--muted);
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 32px;
+  align-self: center;
+  background: var(--surface-card);
+  border-radius: 50%;
+  padding: 12px 19px;
+  border: 2.2px solid #fff4;
+  margin: 0 1vw;
+}
+.arena-instruct {
+  font-size: 13.7px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  padding-bottom: 13px;
+}
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(10,12,20,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.32s;
+}
+.result-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+.result-card {
+  max-width: 410px;
+  background: var(--surface-card);
+  color: var(--text);
+  border-radius: 18px;
+  box-shadow: 0 6px 44px #070f237c;
+  border: 2.1px solid #FFD70033;
+  padding: 38px 34px 28px;
+  text-align: center;
+  position: relative;
+}
+.result-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+.result-title {
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 30px;
+  margin-bottom: 4px;
+  color: var(--green);
+}
+.result-card.wrong .result-title { color: var(--red);}
+.result-score {
+  background: var(--surface);
+  border-radius: 11px;
+  padding: 10px 18px;
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 25px;
+  margin: 12px 0 11px;
+  color: var(--gold);
+}
+.result-message {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+#result-next-btn {
+  width: 100%;
+  color: #222;
+}
+.result-card.correct #result-next-btn {
+  background: linear-gradient(90deg,var(--green) 30%,#00FF88 100%);
+}
+.result-card.wrong #result-next-btn {
+  background: linear-gradient(90deg,var(--red) 20%,#f57e8480 90%);
+  color: #fff;
+}
+.screen--gameover {
+  min-height: 86vh !important;
+  justify-content: center;
+}
+.gameover-panel {
+  max-width: 430px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 35px 15px 22px 15px;
+  background: var(--surface-card);
+  border-radius: 2em;
+  box-shadow: 0 8px 40px #11192b70;
+  animation: fadeIn 0.7s;
+}
+.gameover-title {
+  font-size: 52px;
+  letter-spacing: 3px;
+  font-family: 'Bebas Neue',sans-serif;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.gameover-icon {
+  font-size: 64px;
+  margin-bottom: 10px;
+  color: var(--red);
+  text-shadow: 0 0 22px #e8001d69;
+}
+.gameover-sub {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+.newhs-badge {
+  background: linear-gradient(90deg, var(--gold),#fff20061);
+  color: #272101;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  padding: 7px 19px;
+  border-radius: 8px;
+  display: none;
+  margin: 0 auto 15px;
+  max-width: 270px;
+}
+.newhs-badge.show { display: block!important; }
+.final-stats-row {
+  display: flex;
+  gap: 2.8vw;
+  align-items: stretch;
+  justify-content: center;
+  margin-bottom: 23px;
+  margin-top: 20px;
+}
+.final-stats-row > div {
+  flex: 1 1 100px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 17px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  box-shadow: 0 3px 10px #0002;
+}
+.final-stats-row .stat-label {
+  margin-bottom: 5px;
+  font-size: 10px;
+}
+.final-stats-row .stat-value {
+  font-family: 'Bebas Neue',sans-serif;
+  color: var(--gold);
+  font-size: 37px;
+  margin-bottom: 4px;
+}
+.gameover-actions {
+  margin-top: 11px;
+  display: flex;
+  gap: 14px;
+}
+@media (max-width: 600px) {
+  .hero-card {
+    padding: 17px 2vw 18px;
+    max-width: 99vw;
+  }
+  .final-stats-row {
+    gap: 10px;
+    flex-direction: column;
+    margin-bottom: 18px;
+    margin-top: 13px;
+  }
+  .match-arena {
+    flex-direction: column;
+  }
+  .vs-badge {
+    margin: 8px 0;
+  }
+  .team-card {
+    margin: 0 0 9px 0;
+    min-width: auto;
+    min-height: 158px;
+  }
+}
+@media (max-width:390px) {
+  .hero-title { font-size: 45px;}
+  .stat-value { font-size: 22px;}
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.74);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 90;
+}
+.modal-backdrop.show { display: flex; }
+.modal-dialog {
+  background: var(--surface-card);
+  border-radius: 14px;
+  padding: 30px 22px 19px;
+  text-align: center;
+  box-shadow: 0 5px 24px var(--gold-dark)33;
+  min-width: 250px;
+  max-width: 95vw;
+}
+.modal-emoji {
+  font-size: 39px;
+  margin-bottom: 7px;
+}
+.modal-title {
+  color: var(--gold);
+  font-family: 'Bebas Neue',sans-serif;
+  font-size: 23px;
+  margin-bottom: 8px;
+  letter-spacing: 1.1px;
+}
+.modal-input {
+  width: 94%;
+  margin-bottom: 12px;
+  padding: 11px 9px;
+  font-size: 1.18em;
+  border-radius: 10px;
+  border: 1px solid var(--gold);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+.modal-input:focus { border: 2px solid var(--gold-dark);}
+@keyframes fadeIn { from { opacity: 0;} to { opacity:1; } }

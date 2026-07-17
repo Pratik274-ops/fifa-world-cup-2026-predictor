@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIFA World Cup 2026 Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background">
+    <div class="pitch-overlay">
+      <!-- Stadium-like graphic lines overlay -->
+    </div>
+  </div>
+  <canvas id="confetti-canvas"></canvas>
+  <!-- Modal for leaderboard name entry -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-emoji" aria-hidden="true">🏆</div>
+      <div class="modal-title">New High Score!</div>
+      <input class="modal-input" id="modal-input" maxlength="20" placeholder="Enter your name" aria-label="Enter your name for leaderboard">
+      <button class="btn btn-primary" id="modal-save-btn">Save</button>
+    </div>
+  </div>
+  <!-- Result overlay for answers -->
+  <div class="result-overlay" id="result-overlay" aria-live="polite">
+    <div class="result-card" id="result-card">
+      <div id="result-icon" class="result-icon" aria-hidden="true"></div>
+      <div id="result-title" class="result-title"></div>
+      <div id="result-score" class="result-score"></div>
+      <div id="result-message" class="result-message"></div>
+      <button id="result-next-btn" class="btn btn-primary"></button>
+    </div>
+  </div>
+  <main id="app" tabindex="-1">
+    <!-- Start Screen -->
+    <section class="screen screen--start active" id="screen-start">
+      <div class="hero-card">
+        <div class="hero-trophy" aria-hidden="true">🏆</div>
+        <div class="hero-badge">FIFA World Cup 2026™</div>
+        <h1 class="hero-title">PERFECT<br>PREDICTOR</h1>
+        <div class="hero-location">USA · Canada · Mexico</div>
+        <p class="hero-desc">
+          Predict the winner for each World Cup 2026 match.<br><b>One mistake ends your run!</b>
+        </p>
+        <div class="stat-panel">
+          <div>
+            <span class="stat-label">High Score</span>
+            <span id="start-hs" class="stat-value"></span>
+          </div>
+          <div>
+            <span class="stat-label">Games Played</span>
+            <span id="start-games" class="stat-value"></span>
+          </div>
+          <div>
+            <span class="stat-label">Matches</span>
+            <span id="start-total" class="stat-value"></span>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btn-start">Start Challenge</button>
+        <button class="btn btn-secondary" id="btn-continue" style="display:none">Continue Game</button>
+        <div class="leaderboard-preview">
+          <div class="lb-title">Leaderboard</div>
+          <div id="leaderboard-list"></div>
+        </div>
+      </div>
+    </section>
+    <!-- Game Screen -->
+    <section class="screen screen--game" id="screen-game">
+      <header class="game-header">
+        <div class="game-status-row">
+          <div class="score-pod">
+            <span>Score</span>
+            <span id="game-score">0</span>
+          </div>
+          <div class="game-progress" id="game-progress-label"></div>
+          <div class="streak-pod">
+            <span>Streak</span>
+            <span id="game-streak">0</span>
+          </div>
+        </div>
+        <div class="progress-rail">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+      </header>
+      <div class="game-meta">
+        <span class="game-badge" id="game-badge"></span>
+        <span class="game-meta-row">
+          <span id="game-date"></span>
+          <span class="dot"></span>
+          <span id="game-venue"></span>
+        </span>
+      </div>
+      <div class="draw-warning" id="draw-warning"></div>
+      <div class="match-arena" id="match-arena">
+        <button type="button" class="team-card team-card-a" id="team-a-card" aria-pressed="false" aria-label="Select Team A">
+          <div class="team-img-bg">
+            <img id="team-a-flag" class="team-flag" src="" alt="">
+          </div>
+          <div id="team-a-name" class="team-name"></div>
+          <div class="team-role">HOME</div>
+        </button>
+        <div class="vs-badge">VS</div>
+        <button type="button" class="team-card team-card-b" id="team-b-card" aria-pressed="false" aria-label="Select Team B">
+          <div class="team-img-bg">
+            <img id="team-b-flag" class="team-flag" src="" alt="">
+          </div>
+          <div id="team-b-name" class="team-name"></div>
+          <div class="team-role">AWAY</div>
+        </button>
+      </div>
+      <div class="arena-instruct" id="arena-instruct">Pick the winner for this match</div>
+    </section>
+    <!-- Game Over -->
+    <section class="screen screen--gameover" id="screen-gameover">
+      <div class="gameover-panel">
+        <div class="gameover-icon" aria-hidden="true">🏁</div>
+        <div class="gameover-title">GAME OVER</div>
+        <div id="gameover-sub" class="gameover-sub"></div>
+        <div class="newhs-badge" id="newhs-badge">NEW HIGH SCORE 🎉</div>
+        <div class="final-stats-row">
+          <div>
+            <span class="stat-label">Final Score</span>
+            <span class="stat-value" id="final-score">0</span>
+          </div>
+          <div>
+            <span class="stat-label">Correct Picks</span>
+            <span class="stat-value" id="final-correct">0</span>
+          </div>
+          <div>
+            <span class="stat-label">Best Streak</span>
+            <span class="stat-value" id="final-streak">0</span>
+          </div>
+        </div>
+        <div class="gameover-actions">
+          <button class="btn btn-primary" id="btn-play-again">Play Again</button>
+          <button class="btn btn-secondary" id="btn-home">Home</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="match-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
