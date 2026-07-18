@@ -1,2 +1,2 @@
 - Historical FIFA match data analysis
-- TheVIbeCodeArena
+- TheVIbeCodeArenaHackerearth
